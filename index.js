@@ -24,6 +24,7 @@ const fn = (config, fileEvents, cb) => {
   const gulp = require('gulp')
   const through = require('through2')
   const prettier = require('prettier')
+  const path = require('path')
 
   if (typeof fileEvents === 'function') {
     cb = fileEvents
@@ -34,9 +35,13 @@ const fn = (config, fileEvents, cb) => {
     base: config.srcBase
   })
     .pipe(through.obj((file, enc, done) => {
+      const options = Object.assign({
+        parser: path.extname(file.path) === '.scss' ? 'postcss' : 'babylon'
+      }, config.plugins.prettier)
+
       let content = file.contents.toString()
 
-      content = prettier.format(content, config.plugins.prettier)
+      content = prettier.format(content, options)
 
       file.contents = Buffer.from(content)
 

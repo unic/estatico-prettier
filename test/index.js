@@ -7,7 +7,7 @@ const del = require('del')
 module.exports = {
   before: function (done) {
     const config = {
-      src: './test/fixtures/*.js',
+      src: './test/fixtures/*',
       srcBase: './test/fixtures/',
       dest: './test/results/',
       plugins: {
